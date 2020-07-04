@@ -51,7 +51,11 @@ export default class Login extends Component {
        } = this.props;
        //user validation static for now
        if(inputUser === user && inputPass === pass) {
-           this.props.history.push('/dashboard');
+           this.props.history.push({
+               pathname: '/dashboard'
+           });
+
+           localStorage.setItem('rememberMe', 'true');
        }
        else {
            this.setState({

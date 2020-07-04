@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import {
     DataGridContainer,
     TextFieldWrapper,
-    ButtonWrapper
+    ButtonWrapper,
+    SnackBarWrapper,
+    LogoutButton,
+    AvatarWrapper
 } from './dasboard.styles';
 import DataGrid from '../dataGrid/DataGrid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { TextField, Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 //maintaining a dashboard file so that code is scalable for future aspect
 
@@ -54,9 +59,22 @@ export default class Dashboard extends Component {
               showAddProjectForm: false,
               showAddColumnForm: false,
               userValue: '',
-              showToast: false
+              showToast: false,
+              ValidUser: false
         }
     }
+
+    componentDidMount() {
+
+        if(localStorage.getItem('rememberMe') === 'true') {
+            this.setState({
+                ValidUser: true
+            })
+        }
+
+        }
+        
+    
 
     handleAddResource = () => {
         this.setState({
@@ -80,13 +98,16 @@ export default class Dashboard extends Component {
     }
 
 
-    renderSuccessToast () {
+    renderSuccessToast = () => {
         return (
-            <Snackbar open={this.state.showToast} autoHideDuration={6000} onClose={this.handleClose}>
+            <SnackBarWrapper>
+                <Snackbar open={this.state.showToast} autoHideDuration={6000} onClose={this.handleClose}>
                 <Alert onClose={this.handleSuccessClose} severity="success">
                     Resource Addes Succesfully.
                 </Alert>
             </Snackbar>
+            </SnackBarWrapper>
+            
         )
     }
 
@@ -118,15 +139,23 @@ export default class Dashboard extends Component {
         )
     }
 
-    render() {
+    handleLogout = () => {
+        this.props.history.push({
+            pathname: '/'
+        });
+    }
+
+    checkLogin = () => {
         const {
             columns,
             data,
             showAddUserForm,
-            showToast
+            showToast,
+            ValidUser,
         } = this.state
-        return (
-            <div>
+        if(ValidUser) {
+            return(
+                <div>
                 <ButtonWrapper>
                 <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
                     <Button onClick={this.handleAddResource} >Add Resource</Button>
@@ -138,6 +167,33 @@ export default class Dashboard extends Component {
                     <DataGrid columns ={columns} data = {data} />
                 </DataGridContainer>
             </div>
+            )
+        }
+        else if(!ValidUser){
+            return(
+                <div>
+                    <Snackbar open={true} autoHideDuration={6000} onClose={this.handleClose}>
+                        <Alert onClose={this.handleLogout} severity="error">
+                            Please Login first
+                        </Alert>
+                    </Snackbar>
+                </div>
+            )
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <AppBar position="static">
+                    <Toolbar>
+                    <AvatarWrapper src="/broken-image.jpg" />
+                    <LogoutButton onClick={this.handleLogout} color="inherit">Logout</LogoutButton>
+                    </Toolbar>
+                </AppBar>
+                {this.checkLogin()}
+            </div>
+            
         )
     }
 }

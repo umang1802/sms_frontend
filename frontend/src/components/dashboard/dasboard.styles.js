@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
+import { Avatar } from '@material-ui/core';
 
 export const Menuburger = styled(IconButton)`
     margin-right: 90%;
@@ -30,5 +31,16 @@ export const TextFieldWrapper = styled.div`
 export const ButtonWrapper = styled.div`
     margin-top: 2%;
     margin-left:42%;
+`;
 
+export const SnackBarWrapper = styled.div`
+    margin-bottom: 90%;
+`;
+
+export const LogoutButton = styled.div`
+    margin-left: 90%;
+`;
+
+export const AvatarWrapper = styled(Avatar)`
+    margin-left:2%;
 `;
