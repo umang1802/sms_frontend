@@ -11,10 +11,15 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" exact render={(props) => <Login user="admin" pass="admin" {...props}/>}/>
+        }
         <Route path="/dashboard" render={(props) => <Dashboard {...props} />} />
+        }
         <Route path="/fee-management" render={(props) => <FeeManagement {...props} />} />
+        }
         <Route path="/student-payment" render={(props) => <StudentPayment {...props} />} />
+        }
         <Route path="/finance-dashboard" render={(props) => <FinanceDashboard {...props} />} />
+        }
       </Switch>
     </Router>
   );
